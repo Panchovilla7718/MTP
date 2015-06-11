@@ -2,12 +2,18 @@ require 'test_helper'
 
 class OpeningTest < ActiveSupport::TestCase
   def setup
-    @opening = Opening.new(position: "wing cutter", replacing: "Seth Contreras", shift: "first shift", workschedule: "Work schedule", status: "new")
+    @supervisor = Supervisor.create(name: "Seth Contreras", email: "sethmcontreras@gmail.com", plant: "East Plant")
+    @opening = @supervisor.openings.build(position: "wing cutter", replacing: "Seth Contreras", shift: "first shift", workschedule: "Work schedule", status: "new")
   end
   
   
   test "Opening should be valid" do
     assert @opening.valid?
+  end
+  
+  test "Supervisor id should be present" do
+    @opening.supervisor_id = nil
+    assert_not @opening.valid?
   end
   
   test "Position should be present" do
